@@ -1,4 +1,4 @@
-import { useContext, useState, } from "react";
+import { useContext, useEffect, useState, } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
 import BookingRow from "./BookingRow";
 import axios from "axios";
@@ -7,15 +7,15 @@ const Bookings = () => {
     const {user} = useContext(AuthContext)
     const [bookings, setBookings] = useState([]);
     const URL = `http://localhost:3000/bookings?email=${user?.email}`;
-    axios.get(URL, {withCredentials: true})
-    .then(res => {
+    useEffect(() => {
+      axios.get(URL, {withCredentials: true})
+      .then(res => {
       setBookings(res.data)
     })
-    // useEffect(() => {
-    //     fetch(URL)
-    //     .then(res => res.json())
-    //     .then(data => setBookings(data))
-    // }, [])
+        // fetch(URL)
+        // .then(res => res.json())
+        // .then(data => setBookings(data))
+    }, [])
 
     const handleDelete = id => {
       const proceed = confirm('Are you sure you want to delete this booking');
